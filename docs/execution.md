@@ -39,6 +39,8 @@ Output:
 
 <br>
 
+---
+
 ## Running As Executable
 
 Assuming the built binary is located at `target/demo-native`, from the same directory,

@@ -1,6 +1,6 @@
 # Resources Configuration
 
-Unlike Spring Boot or Vert.x application, resource files that are on the classpath will not be added to binary executable by **native-image** by default. This includes the **src/main/resources** directory.
+Unlike Spring Boot or Vert.x applicatioin, resource files that are on the classpath will not be added to binary executable by **native-image** by default. This includes the **src/main/resources** directory.
 
 
 To instruct **native-image** which resources to be included and/or excluded. The recommended approach is to configure `resource-config.json` file under `src/main/resources/META-INF/native-image` directory.

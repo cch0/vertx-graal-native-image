@@ -21,6 +21,7 @@ demo-native                      latest                  e7e0b9b3bb24   7 second
 Note that we can also configure `jib-maven-plugin` to specify the platform OS and architecture. If you are using **arm64**, you can un-comment the `platforms` section. If your build environment supports multiple platforms, you can add additional `platform` section for other platform you want to support.
 
 
+---
 
 ## Building Native Image Using GraalVM
 
