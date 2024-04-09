@@ -2,6 +2,9 @@
 
 ## Running As Container
 
+Assuming the image name is `demo-native`, from the command line,
+
+
 ```bash
 docker run -it demo-native
 ```
@@ -38,7 +41,7 @@ Output:
 
 ## Running As Executable
 
-Assuming the built binary is located at `target/demo-native`, from the same location, 
+Assuming the built binary is located at `target/demo-native`, from the same directory,
 
 ```bash
 ./target/demo-native

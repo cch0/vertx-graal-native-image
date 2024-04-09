@@ -109,12 +109,12 @@
                     <from>
                         <image>${base.image.version}</image>
                         <!-- uncomment this section to specify platforms -->
-                        <platforms>
+                        <!-- <platforms>
                             <platform>
                                 <architecture>arm64</architecture>
                                 <os>linux</os>
                             </platform>
-                        </platforms>
+                        </platforms> -->
                     </from>
                     <to>
                         <image>${project.artifactId}</image>

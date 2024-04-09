@@ -4,8 +4,8 @@ This is a project which uses [GraalVM](https://www.graalvm.org/) to build a nati
 
 ## The Application
 
-This repository contains the source code for running a basic Vert.x application with as few Verticles as possible. 
-The idea is to provide configuration examples to illustrate various aspects of configuring the application. 
+This repository contains the source code for running a basic Vert.x application with as few Verticles as possible.
+The idea is to provide configuration examples to illustrate various aspects of configuring the application.
 
 
 ## How To Build
@@ -17,3 +17,8 @@ See [How To Build](./docs/build.md)
 See [How To Run](./docs/execution.md)
 
 ## How To Configure Logging
+
+See [Logging](./docs/logging.md)
+
+
+<br>
