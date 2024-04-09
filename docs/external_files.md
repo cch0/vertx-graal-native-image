@@ -73,7 +73,7 @@ To verify the change, for example, you can change content of the `sample.json` f
 
 The following output shows the file content `{"key1":"value1"}` when the application starts up.
 
-And the output shows the content after made the change to become `{"key1":"value3"}`. The change was detected by the listener we configured.
+And the output shows the content after we made the change to become `{"key1":"value3"}`. The change was detected by the listener we configured.
 
 
 ```
