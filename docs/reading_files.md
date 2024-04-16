@@ -1,8 +1,8 @@
 # Reading Files
 
-After configuing `resource-config.json`, we are able to access resources such as reading files by using `Class.getResource()` or `Class.getResourceAsStream()`.
+By configuring resource-config.json, GraalVM can package resources in to the application and resources become available in the class loader. Accessing resources such as reading files can be achieved by using Class.getResource() or Class.getResourceAsStream() in the Java code.
 
-While reading files is now possible, Vert.x makes it easy for us by providing `vertx-config` library. You can see an example in `MainVerticle` clas where we are reading the `json/sample.json` file in the `loadFile` method.
+Vert.x makes it easy for us by providing vertx-config library to read files from the classloader. You can see an example in `MainVerticle` clas where we are reading the `json/sample.json` file in the `loadFile` method.
 
 In this method, we first create `ConfigStoreOptions` to specify the location, format and type of the file to read. We then create `ConfigRetriever`, configure a listener and register a handler to respond to file change.
 
