@@ -23,7 +23,7 @@ In `resource-config.json` file we specify that `logback.xml` is to be included i
 When `logback.xml` is built it, it is available at `/logback.xml`.
 
 
-To override the existing built-in `logback.xml`, we place the external `logback.xml` file along side with the `demo-native`.
+To override the existing built together with the application `logback.xml`, we place the external `logback.xml` file along side with the application binary `demo-native`.
 
 
 ```
