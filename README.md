@@ -64,7 +64,7 @@ See [Reading Files](./docs/reading_files.md)
 
 ## Hoe To Override Configurations with External Files
 
-See [Override with External Files](./external_files.md) for details.
+See [Override with External Files](./docs/external_files.md) for details.
 
 
 <br>
