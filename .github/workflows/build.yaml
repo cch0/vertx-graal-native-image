@@ -1,0 +1,54 @@
+name: Build
+
+on:
+  workflow_dispatch:
+  push:
+    # disable triggering for the following paths and files
+    paths-ignore:
+      - '.github/**'
+      - '.gitignore'
+      - 'README.md'
+      - 'docs/**'
+
+
+#env:
+#  IMAGE_NAME: koverse-aether
+#  MAVEN_SETTINGS_XML: /home/ubuntu/.m2/settings.xml
+
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  branch_build:
+    name: Branch Build
+
+    if: ${{ github.ref != 'refs/heads/main' }}
+
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        id: checkout-source
+
+      - uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: '21'
+          distribution: 'graalvm-community'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          native-image-job-reports: 'true'
+          native-image-pr-reports: 'true'
+
+      - name: Echo step
+        run: |
+          echo "GRAALVM_HOME: $GRAALVM_HOME"
+          echo "JAVA_HOME: $JAVA_HOME"
+          java --version
+          native-image --version
+          
+      - name: Build native image
+        run: |
+          mvn -Pnative clean native:compile
+

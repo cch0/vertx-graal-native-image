@@ -33,7 +33,7 @@ From the command line,
 mvn -Pnative clean native:compile
 ```
 
-The **native** Maven profile is added to allow us the opportunity to build the binary when profile is active.
+The **native** Maven profile is added to give us the opportunity to build the binary when this profile is active.
 
 The executable is located at `target/demo-native`. The name is configured by `imageName` property for the **native-maven-plugin** in the `pom.xml` file.
 

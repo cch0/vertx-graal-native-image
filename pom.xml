@@ -20,7 +20,7 @@
         <vertx-maven-plugin.version>1.0.28</vertx-maven-plugin.version>
         <graalvm-maven-plugin.version>0.10.1</graalvm-maven-plugin.version>
         <logback-classic.version>1.5.3</logback-classic.version>
-        <base.image.version>amazoncorretto:17-alpine3.18-jdk</base.image.version>
+        <base.image.version>amazoncorretto:22.0.1-al2023-headless</base.image.version>
         <junit-jupiter.version>5.9.1</junit-jupiter.version>
         <main.class>com.demo.Main</main.class>
     </properties>
@@ -79,7 +79,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <release>17</release>
+                    <release>22</release>
                 </configuration>
             </plugin>
 
@@ -108,13 +108,17 @@
                 <configuration>
                     <from>
                         <image>${base.image.version}</image>
-                        <!-- uncomment this section to specify platforms -->
-                        <!-- <platforms>
+                        <platforms>
                             <platform>
                                 <architecture>arm64</architecture>
                                 <os>linux</os>
                             </platform>
-                        </platforms> -->
+                            <!-- uncomment this section to add additional platform -->
+<!--                            <platform>-->
+<!--                                <architecture>amd64</architecture>-->
+<!--                                <os>linux</os>-->
+<!--                            </platform>-->
+                        </platforms>
                     </from>
                     <to>
                         <image>${project.artifactId}</image>
