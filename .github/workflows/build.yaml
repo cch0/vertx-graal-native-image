@@ -36,7 +36,7 @@ jobs:
       - uses: graalvm/setup-graalvm@v1
         with:
           java-version: '21'
-          distribution: 'graalvm-community'
+          distribution: 'graalvm'
           github-token: ${{ secrets.GITHUB_TOKEN }}
           native-image-job-reports: 'true'
           native-image-pr-reports: 'true'
@@ -50,5 +50,5 @@ jobs:
           
       - name: Build native image
         run: |
-          mvn -Pnative clean native:compile
+          mvn -e -Pnative clean native:compile
 
