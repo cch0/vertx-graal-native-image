@@ -53,5 +53,5 @@ jobs:
           
       - name: Build native image
         run: |
-          mvn -X -DskipTests=true -Pnative clean native:compile
+          mvn -e -DskipTests=true -Pnative clean native:compile
 
