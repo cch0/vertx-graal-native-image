@@ -5,7 +5,7 @@ on:
   push:
     # disable triggering for the following paths and files
     paths-ignore:
-      - '.github/**'
+#      - '.github/**'
       - '.gitignore'
       - 'README.md'
       - 'docs/**'
