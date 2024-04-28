@@ -134,7 +134,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          artifacts: "artifacts/*.*"
+          artifacts: "artifacts/*"
           tag: ${{ steps.generate_release_tag.outputs.next_release_tag }}
           generateReleaseNotes: false
           makeLatest: true
