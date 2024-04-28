@@ -17,11 +17,11 @@ defaults:
 
 jobs:
   branch_build:
-    name: Branch Build for ${{ matrix.runner }}
+    name: Branch Build for ${{ matrix.profile.runner }}
 
     if: ${{ github.ref != 'refs/heads/main' }}
 
-    runs-on: ${{ matrix.runner }}
+    runs-on: ${{ matrix.profile.runner }}
 
     permissions: write-all
 
@@ -97,7 +97,7 @@ jobs:
       - name: Rename executable
         run: |
           mkdir -p artifacts
-          cp target/demo-native artifacts/demo-native-${{ matrix.platform }}-${{ matrix.os }}
+          cp target/demo-native artifacts/demo-native-${{ matrix.profile.platform }}-${{ matrix.profile.os }}
           ls -l artifacts
           
           
