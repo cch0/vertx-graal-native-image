@@ -27,8 +27,8 @@ jobs:
 
     strategy:
       matrix:
-#        runner: [ ubuntu-22.04, macos-14-large, macos-14-xlarge ]
-        runner: [ ubuntu-22.04 ]
+        runner: [ ubuntu-22.04, macos-13, macos-14 ]
+#        runner: [ ubuntu-22.04 ]
 
     steps:
       - name: Checkout source
