@@ -16,8 +16,8 @@ defaults:
     shell: bash
 
 jobs:
-  branch_build:
-    name: Branch Build for ${{ matrix.profile.runner }}
+  build_image:
+    name: ${{ matrix.profile.runner }}
 
     if: ${{ github.ref != 'refs/heads/main' }}
 
@@ -45,21 +45,6 @@ jobs:
             os: darwin
           }
         ]
-
-
-#        include:
-#          - runner: ubuntu-22.04
-#            platform: x86_64
-#            os: linux
-#          - runner: macos-13
-#            platform: x86_64
-#            os: darwin
-#          - runner: macos-14
-#            platform: arm64
-#            os: darwin
-
-#        runner: [ ubuntu-22.04, macos-13, macos-14 ]
-#        runner: [ ubuntu-22.04 ]
 
     steps:
       - name: Echo
@@ -100,4 +85,45 @@ jobs:
           cp target/demo-native artifacts/demo-native-${{ matrix.profile.platform }}-${{ matrix.profile.os }}
           ls -l artifacts
           
-          
+
+      - name: Upload native image as a Github artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: demo-native-${{ matrix.profile.platform }}-${{ matrix.profile.os }}
+          path: |
+            artifacts/demo-native-${{ matrix.profile.platform }}-${{ matrix.profile.os }}
+          retention-days: 5
+
+
+  create_github_release:
+    name: Create Github Release
+    needs: [ build_image ]
+
+    runs-on: ubuntu-22.04
+
+    permissions: write-all
+
+    if: ${{ github.ref != 'refs/heads/main' }}
+
+    steps:
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          pattern: demo-native-*
+          merge-multiple: true
+
+
+      - name: List downloaded files
+        run: |
+          ls -l artifacts
+
+
+#      - uses: ncipollo/release-action@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.KDP_GHCR_TOKEN }}
+#        with:
+#          artifacts: "scan-artifact/*.*"
+#          tag: ${{ env.VERSION }}
+
