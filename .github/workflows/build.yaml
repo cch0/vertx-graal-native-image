@@ -17,13 +17,17 @@ defaults:
 
 jobs:
   branch_build:
-    name: Branch Build
+    name: Branch Build for ${{ matrix.runner }}
 
     if: ${{ github.ref != 'refs/heads/main' }}
 
-    runs-on: ubuntu-22.04
+    runs-on: ${{ matrix.runner }}
 
     permissions: write-all
+
+    strategy:
+      matrix:
+        runner: [ ubuntu-22.04, macos-14-large, macos-14-xlarge ]
 
     steps:
       - name: Checkout source
