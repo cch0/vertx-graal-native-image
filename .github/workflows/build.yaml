@@ -17,7 +17,7 @@ defaults:
 
 jobs:
   build_image:
-    name: ${{ matrix.profile.runner }}
+    name: ${{ matrix.profile.platform }}-${{ matrix.profile.os }}
 
     if: ${{ github.ref != 'refs/heads/main' }}
 
@@ -72,7 +72,7 @@ jobs:
           echo "JAVA_HOME: $JAVA_HOME"
           java --version
           native-image --version
-          
+
 
       - name: Build native image
         run: |
@@ -84,7 +84,7 @@ jobs:
           mkdir -p artifacts
           cp target/demo-native artifacts/demo-native-${{ matrix.profile.platform }}-${{ matrix.profile.os }}
           ls -l artifacts
-          
+
 
       - name: Upload native image as a Github artifact
         uses: actions/upload-artifact@v4
@@ -120,10 +120,22 @@ jobs:
           ls -l artifacts
 
 
-#      - uses: ncipollo/release-action@v1
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.KDP_GHCR_TOKEN }}
-#        with:
-#          artifacts: "scan-artifact/*.*"
-#          tag: ${{ env.VERSION }}
+      - name: Generate release tag
+        id: generate_release_tag
+        uses: amitsingh-007/next-release-tag@v5.0.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tag_prefix: 'v'
+          tag_template: 'yyyy.mm.dd.i'
+
+
+      - name: Create release
+        uses: ncipollo/release-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          artifacts: "artifacts/*.*"
+          tag: ${{ steps.generate_release_tag.outputs.next_release_tag }}
+          generateReleaseNotes: false
+          makeLatest: true
 
