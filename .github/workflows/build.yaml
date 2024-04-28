@@ -1,0 +1,141 @@
+name: Build
+
+on:
+  workflow_dispatch:
+  push:
+    # disable triggering for the following paths and files
+    paths-ignore:
+#      - '.github/**'
+      - '.gitignore'
+      - 'README.md'
+      - 'docs/**'
+
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build_image:
+    name: ${{ matrix.profile.platform }}-${{ matrix.profile.os }}
+
+    if: ${{ github.ref != 'refs/heads/main' }}
+
+    runs-on: ${{ matrix.profile.runner }}
+
+    permissions: write-all
+
+    strategy:
+      matrix:
+        java-version: ['21']
+        profile: [
+          {
+            runner: ubuntu-22.04,
+            platform: x86_64,
+            os: linux
+          },
+          {
+            runner: macos-13,
+            platform: x86_64,
+            os: darwin
+          },
+          {
+            runner: macos-14,
+            platform: arm64,
+            os: darwin
+          }
+        ]
+
+    steps:
+      - name: Echo
+        run: |
+          uname -a
+
+      - name: Checkout source
+        uses: actions/checkout@v4
+        id: checkout-source
+
+
+      - uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: 'graalvm'
+          version: '22.36.1'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          native-image-job-reports: 'true'
+          native-image-pr-reports: 'true'
+
+
+      - name: Echo step
+        run: |
+          echo "GRAALVM_HOME: $GRAALVM_HOME"
+          echo "JAVA_HOME: $JAVA_HOME"
+          java --version
+          native-image --version
+
+
+      - name: Build native image
+        run: |
+          mvn -e -DskipTests=true -Pnative clean package
+
+
+      - name: Rename executable
+        run: |
+          mkdir -p artifacts
+          cp target/demo-native artifacts/demo-native-${{ matrix.profile.platform }}-${{ matrix.profile.os }}
+          ls -l artifacts
+
+
+      - name: Upload native image as a Github artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: demo-native-${{ matrix.profile.platform }}-${{ matrix.profile.os }}
+          path: |
+            artifacts/demo-native-${{ matrix.profile.platform }}-${{ matrix.profile.os }}
+          retention-days: 5
+
+
+  create_github_release:
+    name: Create Github Release
+    needs: [ build_image ]
+
+    runs-on: ubuntu-22.04
+
+    permissions: write-all
+
+    if: ${{ github.ref != 'refs/heads/main' }}
+
+    steps:
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          pattern: demo-native-*
+          merge-multiple: true
+
+
+      - name: List downloaded files
+        run: |
+          ls -l artifacts
+
+
+      - name: Generate release tag
+        id: generate_release_tag
+        uses: amitsingh-007/next-release-tag@v5.0.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tag_prefix: 'v'
+          tag_template: 'yyyy.mm.dd.i'
+
+
+      - name: Create release
+        uses: ncipollo/release-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          artifacts: "artifacts/*"
+          tag: ${{ steps.generate_release_tag.outputs.next_release_tag }}
+          generateReleaseNotes: false
+          makeLatest: true
+
