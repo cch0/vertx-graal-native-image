@@ -27,10 +27,26 @@ jobs:
 
     strategy:
       matrix:
-        runner: [ ubuntu-22.04, macos-13, macos-14 ]
+        java-version: ['21']
+        include:
+          - runner: ubuntu-22.04
+            platform: x86_64
+            os: linux
+          - runner: macos-13
+            platform: x86_64
+            os: darwin
+          - runner: macos-14
+            platform: aarch64
+            os: darwin
+
+#        runner: [ ubuntu-22.04, macos-13, macos-14 ]
 #        runner: [ ubuntu-22.04 ]
 
     steps:
+      - name: Echo
+        run: |
+          uname -a
+
       - name: Checkout source
         uses: actions/checkout@v4
         id: checkout-source
@@ -38,7 +54,7 @@ jobs:
 
       - uses: graalvm/setup-graalvm@v1
         with:
-          java-version: '21'
+          java-version: ${{ matrix.java-version }}
           distribution: 'graalvm'
           version: '22.36.1'
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -58,3 +74,11 @@ jobs:
         run: |
           mvn -e -DskipTests=true -Pnative clean package
 
+
+      - name: Rename executable
+        run: |
+          mkdir -p artifacts
+          cp target/demo-native artifacts/demo-native-${{ matrix.platform }}-${{ matrix.os }}
+          ls -l artifacts
+          
+          
