@@ -28,16 +28,35 @@ jobs:
     strategy:
       matrix:
         java-version: ['21']
-        include:
-          - runner: ubuntu-22.04
-            platform: x86_64
+        profile: [
+          {
+            runner: ubuntu-22.04,
+            platform: x86_64,
             os: linux
-          - runner: macos-13
-            platform: x86_64
+          },
+          {
+            runner: macos-13,
+            platform: x86_64,
             os: darwin
-          - runner: macos-14
-            platform: aarch64
+          },
+          {
+            runner: macos-14,
+            platform: arm64,
             os: darwin
+          }
+        ]
+
+
+#        include:
+#          - runner: ubuntu-22.04
+#            platform: x86_64
+#            os: linux
+#          - runner: macos-13
+#            platform: x86_64
+#            os: darwin
+#          - runner: macos-14
+#            platform: arm64
+#            os: darwin
 
 #        runner: [ ubuntu-22.04, macos-13, macos-14 ]
 #        runner: [ ubuntu-22.04 ]
