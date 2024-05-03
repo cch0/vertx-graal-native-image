@@ -15,6 +15,7 @@ defaults:
   run:
     shell: bash
 
+
 jobs:
   build_image:
     name: ${{ matrix.profile.platform }}-${{ matrix.profile.os }}
@@ -86,6 +87,12 @@ jobs:
           ls -l artifacts
 
 
+      - name: Attest
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: 'artifacts/demo-native-${{ matrix.profile.platform }}-${{ matrix.profile.os }}'
+
+
       - name: Upload native image as a Github artifact
         uses: actions/upload-artifact@v4
         with:
@@ -103,7 +110,7 @@ jobs:
 
     permissions: write-all
 
-    if: ${{ github.ref != 'refs/heads/main' }}
+    if: ${{ github.ref == 'refs/heads/main' }}
 
     steps:
 
