@@ -87,6 +87,12 @@ jobs:
           ls -l artifacts
 
 
+      - name: Attest
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: '${{ github.workspace }}/demo-native-*'
+
+
       - name: Upload native image as a Github artifact
         uses: actions/upload-artifact@v4
         with:
