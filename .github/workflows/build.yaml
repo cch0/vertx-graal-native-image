@@ -103,7 +103,7 @@ jobs:
 
     permissions: write-all
 
-    if: ${{ github.ref != 'refs/heads/main' }}
+    if: ${{ github.ref == 'refs/heads/main' }}
 
     steps:
 
