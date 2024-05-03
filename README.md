@@ -36,7 +36,7 @@ The idea is to provide configuration examples to illustrate various aspects of c
 
 ## Prerequisistes
 
-The Java release version is set to **17** in the `pom.xml` file but in order to use GraalVM, we require `22-graalce` or above.
+The Java release version is set to **22** for `maven-compiler-plugin` in the `pom.xml` file.
 
 GraalVM can be installed via sdkman
 
