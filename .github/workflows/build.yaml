@@ -20,7 +20,7 @@ jobs:
   build_image:
     name: ${{ matrix.profile.platform }}-${{ matrix.profile.os }}
 
-    if: ${{ github.ref != 'refs/heads/main' }}
+    # if: ${{ github.ref != 'refs/heads/main' }}
 
     runs-on: ${{ matrix.profile.runner }}
 
