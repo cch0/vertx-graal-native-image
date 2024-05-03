@@ -90,7 +90,7 @@ jobs:
       - name: Attest
         uses: actions/attest-build-provenance@v1
         with:
-          subject-path: '${{ github.workspace }}/demo-native-*'
+          subject-path: 'demo-native-${{ matrix.profile.platform }}-${{ matrix.profile.os }}'
 
 
       - name: Upload native image as a Github artifact
